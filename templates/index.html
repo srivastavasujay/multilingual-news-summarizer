@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>News Fetcher</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>News Articles</h1>
+        
+        <!-- Search Form -->
+        <form action="/" method="get">
+            <input type="text" name="query" placeholder="Search news..." value="{{ query }}">
+            <select name="language">
+                <option value="en" {% if language == 'en' %}selected{% endif %}>English</option>
+                <option value="afr" {% if language == 'afr' %}selected{% endif %}>Afrikaans</option>
+                <option value="amh" {% if language == 'amh' %}selected{% endif %}>Amharic</option>
+                <option value="ara" {% if language == 'ara' %}selected{% endif %}>Arabic</option>
+                <option value="aze" {% if language == 'aze' %}selected{% endif %}>Azerbaijani</option>
+                <option value="bel" {% if language == 'bel' %}selected{% endif %}>Belarusian</option>
+                <option value="ben" {% if language == 'ben' %}selected{% endif %}>Bengali</option>
+                <option value="bul" {% if language == 'bul' %}selected{% endif %}>Bulgarian</option>
+                <option value="cat" {% if language == 'cat' %}selected{% endif %}>Catalan</option>
+                <option value="ceb" {% if language == 'ceb' %}selected{% endif %}>Cebuano</option>
+                <option value="ces" {% if language == 'ces' %}selected{% endif %}>Czech</option>
+                <option value="cym" {% if language == 'cym' %}selected{% endif %}>Welsh</option>
+                <option value="dan" {% if language == 'dan' %}selected{% endif %}>Danish</option>
+                <option value="deu" {% if language == 'deu' %}selected{% endif %}>German</option>
+                <option value="ell" {% if language == 'ell' %}selected{% endif %}>Greek</option>
+                <option value="epo" {% if language == 'epo' %}selected{% endif %}>Esperanto</option>
+                <option value="est" {% if language == 'est' %}selected{% endif %}>Estonian</option>
+                <option value="eus" {% if language == 'eus' %}selected{% endif %}>Basque</option>
+                <option value="fin" {% if language == 'fin' %}selected{% endif %}>Finnish</option>
+                <option value="fil" {% if language == 'fil' %}selected{% endif %}>Tagalog</option>
+                <option value="fra" {% if language == 'fra' %}selected{% endif %}>French</option>
+                <option value="fry" {% if language == 'fry' %}selected{% endif %}>Western Frisian</option>
+                <option value="gla" {% if language == 'gla' %}selected{% endif %}>Scottish Gaelic</option>
+                <option value="gle" {% if language == 'gle' %}selected{% endif %}>Irish</option>
+                <option value="glg" {% if language == 'glg' %}selected{% endif %}>Galician</option>
+                <option value="guj" {% if language == 'guj' %}selected{% endif %}>Gujarati</option>
+                <option value="hat" {% if language == 'hat' %}selected{% endif %}>Haitian Creole</option>
+                <option value="hau" {% if language == 'hau' %}selected{% endif %}>Hausa</option>
+                <option value="heb" {% if language == 'heb' %}selected{% endif %}>Hebrew</option>
+                <option value="hin" {% if language == 'hin' %}selected{% endif %}>Hindi</option>
+                <option value="hun" {% if language == 'hun' %}selected{% endif %}>Hungarian</option>
+                <option value="hye" {% if language == 'hye' %}selected{% endif %}>Armenian</option>
+                <option value="ibo" {% if language == 'ibo' %}selected{% endif %}>Igbo</option>
+                <option value="ind" {% if language == 'ind' %}selected{% endif %}>Indonesian</option>
+                <option value="isl" {% if language == 'isl' %}selected{% endif %}>Icelandic</option>
+                <option value="ita" {% if language == 'ita' %}selected{% endif %}>Italian</option>
+                <option value="jav" {% if language == 'jav' %}selected{% endif %}>Javanese</option>
+                <option value="jpn" {% if language == 'jpn' %}selected{% endif %}>Japanese</option>
+                <option value="kan" {% if language == 'kan' %}selected{% endif %}>Kannada</option>
+                <option value="kat" {% if language == 'kat' %}selected{% endif %}>Georgian</option>
+                <option value="kaz" {% if language == 'kaz' %}selected{% endif %}>Kazakh</option>
+                <option value="khm" {% if language == 'khm' %}selected{% endif %}>Khmer</option>
+                <option value="kir" {% if language == 'kir' %}selected{% endif %}>Kyrgyz</option>
+                <option value="kor" {% if language == 'kor' %}selected{% endif %}>Korean</option>
+                <option value="kur" {% if language == 'kur' %}selected{% endif %}>Kurdish</option>
+                <option value="lao" {% if language == 'lao' %}selected{% endif %}>Lao</option>
+                <option value="lav" {% if language == 'lav' %}selected{% endif %}>Latvian</option>
+                <option value="lat" {% if language == 'lat' %}selected{% endif %}>Latin</option>
+                <option value="lit" {% if language == 'lit' %}selected{% endif %}>Lithuanian</option>
+                <option value="ltz" {% if language == 'ltz' %}selected{% endif %}>Luxembourgish</option>
+                <option value="mal" {% if language == 'mal' %}selected{% endif %}>Malayalam</option>
+                <option value="mar" {% if language == 'mar' %}selected{% endif %}>Marathi</option>
+                <option value="mkd" {% if language == 'mkd' %}selected{% endif %}>Macedonian</option>
+                <option value="mlg" {% if language == 'mlg' %}selected{% endif %}>Malagasy</option>
+                <option value="mlt" {% if language == 'mlt' %}selected{% endif %}>Maltese</option>
+                <option value="mon" {% if language == 'mon' %}selected{% endif %}>Mongolian</option>
+                <option value="mri" {% if language == 'mri' %}selected{% endif %}>Maori</option>
+                <option value="msa" {% if language == 'msa' %}selected{% endif %}>Malay</option>
+                <option value="mya" {% if language == 'mya' %}selected{% endif %}>Burmese</option>
+                <option value="nep" {% if language == 'nep' %}selected{% endif %}>Nepali</option>
+                <option value="nld" {% if language == 'nld' %}selected{% endif %}>Dutch</option>
+                <option value="nor" {% if language == 'nor' %}selected{% endif %}>Norwegian</option>
+                <option value="nso" {% if language == 'nso' %}selected{% endif %}>Northern Sotho</option>
+                <option value="nya" {% if language == 'nya' %}selected{% endif %}>Chichewa</option>
+                <option value="ory" {% if language == 'ory' %}selected{% endif %}>Oriya</option>
+                <option value="pan" {% if language == 'pan' %}selected{% endif %}>Punjabi</option>
+                <option value="pes" {% if language == 'pes' %}selected{% endif %}>Persian</option>
+                <option value="pol" {% if language == 'pol' %}selected{% endif %}>Polish</option>
+                <option value="por" {% if language == 'por' %}selected{% endif %}>Portuguese</option>
+                <option value="pus" {% if language == 'pus' %}selected{% endif %}>Pashto</option>
+                <option value="ron" {% if language == 'ron' %}selected{% endif %}>Romanian</option>
+                <option value="rus" {% if language == 'rus' %}selected{% endif %}>Russian</option>
+                <option value="sin" {% if language == 'sin' %}selected{% endif %}>Sinhala</option>
+                <option value="slk" {% if language == 'slk' %}selected{% endif %}>Slovak</option>
+                <option value="slv" {% if language == 'slv' %}selected{% endif %}>Slovenian</option>
+                <option value="smo" {% if language == 'smo' %}selected{% endif %}>Samoan</option>
+                <option value="sna" {% if language == 'sna' %}selected{% endif %}>Shona</option>
+                <option value="snd" {% if language == 'snd' %}selected{% endif %}>Sindhi</option>
+                <option value="som" {% if language == 'som' %}selected{% endif %}>Somali</option>
+                <option value="sot" {% if language == 'sot' %}selected{% endif %}>Southern Sotho</option>
+                <option value="spa" {% if language == 'spa' %}selected{% endif %}>Spanish</option>
+                <option value="sqi" {% if language == 'sqi' %}selected{% endif %}>Albanian</option>
+                <option value="srp" {% if language == 'srp' %}selected{% endif %}>Serbian</option>
+                <option value="sun" {% if language == 'sun' %}selected{% endif %}>Sundanese</option>
+                <option value="swa" {% if language == 'swa' %}selected{% endif %}>Swahili</option>
+                <option value="swe" {% if language == 'swe' %}selected{% endif %}>Swedish</option>
+                <option value="tam" {% if language == 'tam' %}selected{% endif %}>Tamil</option>
+                <option value="tel" {% if language == 'tel' %}selected{% endif %}>Telugu</option>
+                <option value="tgk" {% if language == 'tgk' %}selected{% endif %}>Tajik</option>
+                <option value="tha" {% if language == 'tha' %}selected{% endif %}>Thai</option>
+                <option value="tur" {% if language == 'tur' %}selected{% endif %}>Turkish</option>
+                <option value="twi" {% if language == 'twi' %}selected{% endif %}>Twi</option>
+                <option value="ukr" {% if language == 'ukr' %}selected{% endif %}>Ukrainian</option>
+                <option value="urd" {% if language == 'urd' %}selected{% endif %}>Urdu</option>
+                <option value="uzb" {% if language == 'uzb' %}selected{% endif %}>Uzbek</option>
+                <option value="vie" {% if language == 'vie' %}selected{% endif %}>Vietnamese</option>
+                <option value="xho" {% if language == 'xho' %}selected{% endif %}>Xhosa</option>
+                <option value="yid" {% if language == 'yid' %}selected{% endif %}>Yiddish</option>
+                <option value="yor" {% if language == 'yor' %}selected{% endif %}>Yoruba</option>
+                <option value="zho" {% if language == 'zho' %}selected{% endif %}>Chinese</option>
+                <option value="zul" {% if language == 'zul' %}selected{% endif %}>Zulu</option>
+            </select>
+            <button type="submit">Search</button>
+        </form>
+        
+        <!-- Display Articles -->
+        <div class="articles">
+            {% for article in articles %}
+            <div class="article">
+                <h3><a href="{{ article.url }}" target="_blank">{{ article.title }}</a></h3>
+                <p>{{ article.description }}</p>
+                <small>Source: {{ article.source.name }} | Published: {{ article.publishedAt }}</small>
+            </div>
+            {% else %}
+            <p>No articles found.</p>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>
