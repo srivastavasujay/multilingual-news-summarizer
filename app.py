@@ -5,9 +5,9 @@ import cohere
 app = Flask(__name__)
 
 # Your News API key
-NEWS_API_KEY = '94ec949e93bc45faa132a0b6dde20b59'
+NEWS_API_KEY = 'Insert key here'
 # Your Cohere API key
-COHERE_API_KEY = 'Fcj3y7CAsrhs9yHvvXxpLYowYdX5z02APwZJtzuv'
+COHERE_API_KEY = 'Insert key here'
 
 # Initialize Cohere client
 co = cohere.Client(COHERE_API_KEY)
