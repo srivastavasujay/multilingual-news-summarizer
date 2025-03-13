@@ -1,23 +1,41 @@
 from flask import Flask, render_template, request
 import requests
 import cohere
+import json
+import time
 
 app = Flask(__name__)
 
 # Your News API key
-NEWS_API_KEY = 'Insert key here'
+NEWS_API_KEY = '94ec949e93bc45faa132a0b6dde20b59'
 # Your Cohere API key
-COHERE_API_KEY = 'Insert key here'
+COHERE_API_KEY = 'Fcj3y7CAsrhs9yHvvXxpLYowYdX5z02APwZJtzuv'
 
 # Initialize Cohere client
 co = cohere.Client(COHERE_API_KEY)
+
+# Load language options from JSON file
+with open('templates/languages.json') as f:
+    languages = json.load(f)
 
 # Function to fetch news articles
 def fetch_articles(query, language):
     category = query
     url = f'https://newsapi.org/v2/top-headlines?country=us&category={category}&apiKey={NEWS_API_KEY}'
+    
+    # Measure the time before making the API request
+    start_time = time.time()
+    
     response = requests.get(url)
-    articles = response.json().get('articles', [])[:10]  # Limit to 10 articles
+    
+    # Measure the time after receiving the response
+    end_time = time.time()
+    
+    # Calculate the response time
+    response_time = end_time - start_time
+    print(f"API response time: {response_time} seconds")
+    
+    articles = response.json().get('articles', [])[:20]  # Limit to 20 articles
     
     if language != 'en':
         articles = translate_articles(articles, language)
@@ -31,6 +49,7 @@ def translate_articles(articles, target_language):
         try:
             translated_title = translate_text(article['title'], target_language)
             translated_description = translate_text(article['description'], target_language)
+                        
             translated_article = {
                 'title': translated_title,
                 'description': translated_description,
@@ -54,11 +73,14 @@ def translate_articles(articles, target_language):
 
 # Function to translate text using Cohere
 def translate_text(text, target_language):
+    if not text:
+        return ""
+        
     try:
         response = co.generate(
-            model='command-xlarge-nightly',
+            model='command',
             prompt=f"Translate the following text to {target_language}: {text}",
-            max_tokens=128,
+            max_tokens=512,
             temperature=0.5,
             stop_sequences=["--"]
         )
@@ -77,7 +99,7 @@ def index():
     language = request.args.get('language', 'en')
     
     articles = fetch_articles(query, language)
-    return render_template('index.html', articles=articles, query=query, language=language)
+    return render_template('index.html', articles=articles, query=query, language=language, languages=languages)
 
 if __name__ == '__main__':
     app.run(debug=True)
